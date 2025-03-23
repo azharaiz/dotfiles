@@ -11,7 +11,7 @@ after-startup-command = [
 ]
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -56,16 +56,34 @@ automatically-unhide-macos-hidden-apps = false
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-    inner.horizontal = [{monitor."secondary" = 10}, 5]
-    inner.vertical =   [{monitor."secondary" = 10}, 5]
-    outer.left =       [{monitor."secondary" = 0}, 0]
-    outer.bottom =     [{monitor."secondary" = 0}, 0]
-    outer.top =        [{monitor."secondary" = 0}, 0]
-    outer.right =      [{monitor."secondary" = 0}, 0]
+    inner.horizontal = [{monitor."G34w-30" = 10}, 5]
+    inner.vertical =   [{monitor."G34w-30" = 10}, 5]
+    outer.left =       [{monitor."G34w-30" = 0}, 0]
+    outer.bottom =     [{monitor."G34w-30" = 0}, 0]
+    outer.top =        [{monitor."G34w-30" = 0}, 0]
+    outer.right =      [{monitor."G34w-30" = 0}, 0]
 
 [workspace-to-monitor-force-assignment]
-    O = 'secondary'
-    P = 'secondary'
+    O = ['G34w-30']
+    P = ['G34w-30']
+
+# App Automation
+[[on-window-detected]]
+    if.app-id = 'com.tinyspeck.slackmacgap'
+    run = 'move-node-to-workspace 1' 
+
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome'
+    run = 'move-node-to-workspace 2' 
+
+[[on-window-detected]]
+    if.app-id = 'com.postmanlabs.mac'
+    run = 'move-node-to-workspace 3' 
+
+[[on-window-detected]]
+    if.app-id = 'org.jkiss.dbeaver.core.product'
+    run = 'move-node-to-workspace 4'
+
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -121,7 +139,13 @@ automatically-unhide-macos-hidden-apps = false
 
     # Switch Workspaces
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-    
+
+    ## Work
+    alt-1 = 'workspace 1' # Slack
+    alt-2 = 'workspace 2' # Chrome
+    alt-3 = 'workspace 3' # Postman
+    alt-4 = 'workspace 4' # DBeaver
+
     ## Left
     alt-a = 'workspace A'
     alt-s = 'workspace S'

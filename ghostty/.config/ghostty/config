@@ -10,3 +10,5 @@ keybind = ctrl+z=close_surface
 
 # Empty values reset the configuration to the default value
 font-family = "JetBrains Mono"
+
+keybind = global:ctrl+t=toggle_quick_terminal
