@@ -70,19 +70,19 @@ automatically-unhide-macos-hidden-apps = false
 # App Automation
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
-    run = 'move-node-to-workspace 1' 
+    run = 'move-node-to-workspace n' 
 
 [[on-window-detected]]
     if.app-id = 'com.google.Chrome'
-    run = 'move-node-to-workspace 2' 
+    run = 'move-node-to-workspace m' 
 
 [[on-window-detected]]
     if.app-id = 'com.postmanlabs.mac'
-    run = 'move-node-to-workspace 3' 
+    run = 'move-node-to-workspace i' 
 
 [[on-window-detected]]
     if.app-id = 'org.jkiss.dbeaver.core.product'
-    run = 'move-node-to-workspace 4'
+    run = 'move-node-to-workspace u'
 
 
 # 'main' binding mode declaration
@@ -141,12 +141,12 @@ automatically-unhide-macos-hidden-apps = false
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 
     ## Work
-    alt-1 = 'workspace 1' # Slack
-    alt-2 = 'workspace 2' # Chrome
-    alt-3 = 'workspace 3' # Postman
-    alt-4 = 'workspace 4' # DBeaver
+    alt-u = 'workspace U' # DBeaver
+    alt-i = 'workspace I' # Postman
+    alt-n = 'workspace N' # Slack
+    alt-m = 'workspace M' # Chrome
 
-    ## Left
+    ## Common
     alt-a = 'workspace A'
     alt-s = 'workspace S'
     alt-d = 'workspace D'
@@ -156,13 +156,7 @@ automatically-unhide-macos-hidden-apps = false
     alt-x = 'workspace X'
     alt-c = 'workspace C'
     alt-v = 'workspace V'
-
-    ## Right
     alt-y = 'workspace Y'
-    alt-u = 'workspace U'
-    alt-i = 'workspace I'
-    alt-n = 'workspace N'
-    alt-m = 'workspace M'
 
     ### Secondary Monitor
     alt-o = 'workspace O'
