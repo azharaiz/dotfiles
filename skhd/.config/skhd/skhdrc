@@ -1,0 +1,11 @@
+# Personal
+hyper - j : open /Applications/TickTick.app
+hyper - k : open /Applications/Obsidian.app
+hyper - l : open /Applications/Safari.app
+
+# Work
+hyper - a : open /Applications/Slack.app 
+hyper - s : open /Applications/Google\ Chrome.app
+hyper - d : open /Applications/Postman.app
+hyper - f : open /Applications/DBeaver.app
+hyper - v : open /Applications/Visual\ Studio\ Code.app

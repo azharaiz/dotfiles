@@ -56,12 +56,12 @@ automatically-unhide-macos-hidden-apps = false
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-    inner.horizontal = [{monitor."G34w-30" = 10}, 5]
-    inner.vertical =   [{monitor."G34w-30" = 10}, 5]
-    outer.left =       [{monitor."G34w-30" = 0}, 0]
-    outer.bottom =     [{monitor."G34w-30" = 0}, 0]
-    outer.top =        [{monitor."G34w-30" = 0}, 0]
-    outer.right =      [{monitor."G34w-30" = 0}, 0]
+    inner.horizontal = [{monitor."G34w-30" = 5}, 5]
+    inner.vertical =   [{monitor."G34w-30" = 5}, 5]
+    outer.left =       [{monitor."G34w-30" = 5}, 3]
+    outer.bottom =     [{monitor."G34w-30" = 5}, 3]
+    outer.top =        [{monitor."G34w-30" = 5}, 3]
+    outer.right =      [{monitor."G34w-30" = 5}, 3]
 
 [workspace-to-monitor-force-assignment]
     O = ['G34w-30']
