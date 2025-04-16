@@ -38,12 +38,15 @@
 
 (defalias
   esctl (tap-hold 100 100 esc lctl)
+  tdspc (tap-dance 100 (spc))
+  hyper (multi lctl lalt lmet lsft)
 
-  ;; chords
+  ;; CHORDS
   chj (chord homerow j)
   chk (chord homerow k)
   chf (chord homerow f)
 
+  ;; MODS
   ;; home row mods
   a (tap-hold $tap-time $hold-time a lctl)
   s (tap-hold $tap-time $hold-time s lalt)
@@ -54,8 +57,18 @@
   l (tap-hold $tap-time $hold-time l ralt)
   ; (tap-hold $tap-time $hold-time ; rctl)
 
-  ;; layers
-  fnl (tap-hold 200 200 fn (layer-toggle fn))
+  ;; others
+  spc (tap-hold $tap-time $hold-time spc @hyper)
+
+  ;; LAYERS
+  ;; layer actions
+  base (layer-switch base)
+  down (layer-switch down)
+
+  tdrmet (tap-dance 200 (rmet @down))
+
+  ;; layer shortcuts
+  rmet (tap-hold 200 200 @tdrmet (layer-while-held down))
 )
 
 (deflayer base
@@ -64,15 +77,15 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   @esctl @a @s   @d   @f   g    h    @j   @k   @l   @;   '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lalt lmet           spc            rmet ralt  rctl
-  @fnl
+  lctl lalt lmet           @spc            @rmet ralt  rctl
+  fn
 )
 
-(deflayer fn
+(deflayer down
   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10   f11   f12
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  @esctl _ _ _ _ _ _ _ _ _ _ _ _ 
+  @base _ _ _ _ _ _ _ _ _ _ _ _ 
   _ _ _ _ _ _ _ _ _ _ _ _
   _ _ _ _ _ _ _
   fn
