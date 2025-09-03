@@ -12,7 +12,6 @@ homebrew_taps:
   - koekeishiya/formulae
 
 homebrew_installed_packages:
-  - bitwarden
   - stow
   - tmux
   - neovim
@@ -20,13 +19,13 @@ homebrew_installed_packages:
   # Productivity
   - borders
   - skhd
-  - shortcat
 
-  # Node
-  - nvm
+  # Version Manager
+  - asdf
+  - gpg
+  - gawk
 
   # Python
-  - pyenv
   - openssl
   - readline
   - sqlite3
@@ -37,9 +36,11 @@ homebrew_installed_packages:
 
   # Golang
   - mercurial
-  - bison 
+  - bison
 
 homebrew_cask_apps:
+  - bitwarden
+  - shortcat
   - appcleaner
   - ghostty
   - browserosaurus
@@ -57,8 +58,9 @@ homebrew_cask_apps:
   - slack
   - postman
   - dbeaver-community
-  - visual-studio-code 
-  - android-studio
+  - visual-studio-code
+  - jetbrains-toolbox
+  - cursor
 
 homebrew_cask_appdir: /Applications
 
@@ -76,4 +78,3 @@ mas_email: ""
 mas_password: ""
 
 post_provision_tasks: []
-
