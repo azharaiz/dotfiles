@@ -21,7 +21,7 @@ homebrew_installed_packages:
   - skhd
 
   # Version Manager
-  - asdf
+  - mise
   - gpg
   - gawk
 
@@ -37,6 +37,9 @@ homebrew_installed_packages:
   # Golang
   - mercurial
   - bison
+
+  # Container
+  - docker
 
 homebrew_cask_apps:
   - bitwarden
@@ -54,13 +57,16 @@ homebrew_cask_apps:
   - karabiner-elements
   - mouseless
 
+  - jetbrains-toolbox
+  - goland
+  - podman-desktop
+  - visual-studio-code
+  - cursor
+
   - google-chrome
   - slack
   - postman
   - dbeaver-community
-  - visual-studio-code
-  - jetbrains-toolbox
-  - cursor
 
 homebrew_cask_appdir: /Applications
 
