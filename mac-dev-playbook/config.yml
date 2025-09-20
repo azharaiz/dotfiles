@@ -1,0 +1,87 @@
+---
+configure_dotfiles: false
+configure_terminal: true
+configure_osx: false
+configure_dock: false
+configure_sudoers: false
+configure_sublime: false
+
+
+homebrew_taps:
+  - FelixKratz/formulae
+  - koekeishiya/formulae
+
+homebrew_installed_packages:
+  - tmux
+  - neovim
+
+  # Productivity
+  - borders
+  - skhd
+
+  # Version Manager
+  - mise
+  - gpg
+  - gawk
+
+  # Python
+  - openssl
+  - readline
+  - sqlite3
+  - xz
+  - zlib
+  - tcl-tk@8
+  - libb2
+
+  # Golang
+  - mercurial
+  - bison
+
+  # Container
+  - docker
+
+
+homebrew_cask_apps:
+  - bitwarden
+  - homerow
+  - appcleaner
+  - ghostty
+  - browserosaurus
+  - brave-browser
+  - alfred
+  - lunar
+  - aldente
+  - obsidian
+
+  - nikitabobko/tap/aerospace
+  - karabiner-elements
+  - mouseless
+
+  - jetbrains-toolbox
+  - goland
+  - podman-desktop
+  - visual-studio-code
+  - cursor
+
+  - google-chrome
+  - slack
+  - postman
+  - dbeaver-community
+  - gcloud-cli
+
+homebrew_cask_appdir: /Applications
+
+mas_installed_apps:
+  - { id: 497799835, name: "Xcode" }
+  - { id: 937984704, name: "Amphetamine" }
+  - { id: 966085870, name: "TickTick:To-Do List, Calendar" }
+  - { id: 425424353, name: "The Unarchiver" }
+  - { id: 441258766, name: "Magnet" }
+  - { id: 747648890, name: "Telegram" }
+  - { id: 1661733229, name: "LocalSend" }
+  - { id: 1452453066, name: "Hidden Bar" }
+
+mas_email: ""
+mas_password: ""
+
+post_provision_tasks: []

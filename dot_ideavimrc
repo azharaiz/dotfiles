@@ -1,0 +1,71 @@
+set scrolloff=10
+set number relativenumber
+
+set showmode
+set showcmd
+set visualbell
+set clipboard+=unnamed
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+let mapleader = " "
+
+set NERDTree
+
+inoremap jk <Esc>
+nmap <C-h> <C-w>h
+nmap <C-l> <C-w>l
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+
+
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap gr <Action>(ShowUsages)
+nmap gi <Action>(GotoImplementation)
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap K <Action>(QuickJavaDoc)
+nmap g0 <Action>(FileStructurePopup)
+nmap gW <Action>(GotoSymbol)
+
+nmap gcc <Action>(CommentByLineComment)
+nmap gcb <Action>(CommentByBlockComment)
+xmap gc <Action>(CommentByLineComment)
+xmap gb <Action>(CommentByBlockComment)
+
+nmap <leader>lg <Action>(Vcs.QuickListPopupAction)
+nmap <leader>ll <Action>(Vcs.Show.Log)
+nmap <leader>lq <action>(HideActiveWindow)
+
+nmap <leader>sf <action>(com.mituuz.fuzzier.Fuzzier)
+nmap <leader>sg <action>(com.mituuz.fuzzier.FuzzyGrep)
+nmap <leader>sv <action>(com.mituuz.fuzzier.FuzzierVCS)
+
+nmap <leader>d <action>(ToggleLineBreakpoint)
+nmap <leader>D <action>(AddBreakpoint)
+nmap <leader>ds <action>(Debug)
+nmap <leader>dS <action>(Stop)
+nmap <leader>dn <action>(StepOver)
+nmap <leader>di <action>(StepInto)
+nmap <leader>do <action>(StepOut)
+nmap <leader>dw <action>(ActivateDebugToolWindow)
+nmap <leader>dq <action>(HideActiveWindow)
+
+nmap <leader>re <action>(ExtractMethod)
+xmap <leader>re <action>(ExtractMethod)
+nmap <leader>rf <action>(Move)
+xmap <leader>rf <action>(Move)
+nmap <leader>ri <action>(Inline)
+xmap <leader>ri <action>(Inline)
+nmap <leader>rv <action>(IntroduceVariable)
+xmap <leader>rv <action>(IntroduceVariable)
+nmap <leader>rI <action>(Inline)
+
+
+nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>N :NERDTreeFocus<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
