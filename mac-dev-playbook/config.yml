@@ -40,6 +40,10 @@ homebrew_installed_packages:
   # Container
   - docker
 
+  # Yazi deps
+  - sevenzip
+  - poppler
+  - imagemagick
 
 homebrew_cask_apps:
   - bitwarden
@@ -68,6 +72,8 @@ homebrew_cask_apps:
   - postman
   - dbeaver-community
   - gcloud-cli
+
+  - font-symbols-only-nerd-font
 
 homebrew_cask_appdir: /Applications
 
