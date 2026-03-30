@@ -1,0 +1,127 @@
+---
+configure_dotfiles: false
+configure_terminal: true
+configure_osx: false
+configure_dock: false
+configure_sudoers: false
+configure_sublime: false
+
+homebrew_taps:
+  - anomalyco/tap
+
+  # TODO: Revisit
+  # - FelixKratz/formulae
+  # - koekeishiya/formulae
+
+homebrew_installed_packages:
+  # Privacy
+  - ykman
+
+  # Development
+  - chezmoi
+  - neovim
+  - tmux
+  - anomalyco/tap/opencode
+  - claude-code
+
+  # LazyVim
+  - lazygit
+  - tree-sitter-cli
+  - fzf
+  - ripgrep
+  - fd
+
+  # Version Manager
+  - mise
+
+  # Python Build Deps
+  - openssl
+  - readline
+  - sqlite3
+  - xz
+  - zlib
+  - tcl-tk@8
+  - libb2
+
+  # Golang Build Deps
+  - mercurial
+  - bison
+
+  # Containers
+  - colima
+  - docker
+
+  # Utility
+  - mole
+  - zoxide
+
+  # TODO: Revisit
+  # - borders
+  # - skhd
+
+homebrew_cask_apps:
+  - font-jetbrains-mono-nerd-font
+
+  # Privacy
+  - keepassxc
+  - gpg-suite
+  - little-snitch
+  - yubico-authenticator
+  - cryptomator
+  - veracrypt
+  - bitwarden
+
+  # Productivity
+  - obsidian
+  - ticktick
+  - libreoffice
+
+  # Browsers
+  - browserosaurus
+  - brave-browser
+  - librewolf
+  - firefox
+  - orion
+  - mullvad-browser
+
+  # Utility
+  - raycast
+  - aldente
+  - lunar
+  - the-unarchiver
+  - localsend
+  - hiddenbar
+  - cleanshot
+
+  # Navigation
+  - nikitabobko/tap/aerospace
+  - homerow
+  - mouseless
+
+  # Development
+  - ghostty
+  - jetbrains-toolbox
+  - goland
+  - visual-studio-code
+  - android-studio
+
+  # Work
+  - google-chrome
+  - slack
+  - gcloud-cli
+  - postman
+  - dbeaver-community
+
+  # Social
+  - telegram
+
+homebrew_cask_appdir: /Applications
+
+mas_installed_apps:
+  - { id: 937984704, name: "Amphetamine" }
+  - { id: 497799835, name: "Xcode" }
+
+mas_email: ""
+mas_password: ""
+
+post_provision_tasks: []
