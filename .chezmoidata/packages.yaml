@@ -1,0 +1,90 @@
+packages:
+  darwin:
+    taps:
+      - "anomalyco/tap"
+      - "y3owk1n/tap"
+    brews:
+      # Privacy
+      - "ykman"
+
+      # Development
+      - "chezmoi"
+      - "neovim"
+      - "tmux"
+      - "anomalyco/tap/opencode"
+
+      # LazyVim
+      - "lazygit"
+      - "tree-sitter-cli"
+      - "fzf"
+      - "ripgrep"
+      - "fd"
+
+      # Version Manager
+      - "mise"
+
+      # Python Build Deps
+      - "openssl"
+      - "readline"
+      - "sqlite3"
+      - "xz"
+      - "zlib"
+      - "tcl-tk@8"
+      - "libb2"
+
+      # Golang Build Deps
+      - "mercurial"
+      - "bison"
+
+      # Containers
+      - "colima"
+      - "docker"
+      - "docker-compose"
+
+      # Utility
+      - "mole"
+      - "zoxide"
+    casks:
+      - "font-jetbrains-mono-nerd-font"
+
+      # Privacy
+      - "keepassxc"
+      - "gpg-suite"
+      - "little-snitch"
+      - "cryptomator"
+
+      # Productivity
+      - "obsidian"
+      - "libreoffice"
+
+      # Browsers
+      - "browserosaurus"
+      - "brave-browser"
+      - "librewolf"
+      - "firefox"
+      - "orion"
+      - "mullvad-browser"
+
+      # Utility
+      - "raycast"
+      - "aldente"
+      - "lunar"
+      - "cleanshot"
+
+      # Navigation
+      - "nikitabobko/tap/aerospace"
+      - "y3owk1n/tap/neru"
+
+      # Development
+      - "ghostty"
+      - "jetbrains-toolbox"
+      - "goland"
+      - "visual-studio-code"
+      - "android-studio"
+
+      # Work
+      - "google-chrome"
+      - "gcloud-cli"
+      - "postman"
+      - "dbeaver-community"
+      - "claude-code"
