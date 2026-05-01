@@ -44,6 +44,9 @@ packages:
       # Utility
       - "mole"
       - "zoxide"
+
+      # Mac App Store
+      - "mas"
     casks:
       - "font-jetbrains-mono-nerd-font"
 
@@ -88,3 +91,15 @@ packages:
       - "postman"
       - "dbeaver-community"
       - "claude-code"
+    mas:
+      - { id: 937984704, name: "Amphetamine" }
+      - { id: 497799835, name: "Xcode" }
+      - { id: 803453959, name: "Slack for Desktop" }
+      - { id: 747648890, name: "Telegram" }
+      - { id: 1661733229, name: "LocalSend" }
+      - { id: 1497506650, name: "Yubico Authenticator" }
+      - { id: 1352778147, name: "Bitwarden" }
+      - { id: 6720708363, name: "Obsidian Web Clipper" }
+      - { id: 966085870, name: "TickTick" }
+      - { id: 425424353, name: "The Unarchiver" }
+      - { id: 1452453066, name: "Hidden Bar" }

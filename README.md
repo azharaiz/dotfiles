@@ -11,15 +11,13 @@ This repository contains configuration files for:
 - **Ghostty** - Terminal emulator
 - **AeroSpace** - Tiling window manager
 - **mise** - Version manager for Go, Node, Python
-- **mac-dev-playbook** - Ansible playbook for macOS provisioning
+
 
 ## Prerequisites
 
 - macOS
 - Homebrew
 - Oh My Zsh
-- Ansible (for mac-dev-playbook)
-
 ## Installation
 
 ### 1. Install Xcode Command Line Tools
@@ -46,44 +44,12 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 brew install chezmoi
 ```
 
-### 5. Clone mac-dev-playbook
-
-```bash
-git clone https://github.com/geerlingguy/mac-dev-playbook.git ~/.config/mac-dev-playbook
-```
-
-### 6. Initialize chezmoi
+### 5. Initialize chezmoi
 
 ```bash
 chezmoi init https://github.com/azharaiz/dotfiles.git
 chezmoi apply
 ```
-
-### 7. Install Ansible
-
-```bash
-brew install ansible
-```
-
-### 8. Install Ansible Dependencies
-
-```bash
-cd ~/.config/mac-dev-playbook
-ansible-galaxy install -r requirements.yml
-```
-
-### 9. Run mac-dev-playbook
-
-```bash
-cd ~/.config/mac-dev-playbook
-ansible-playbook main.yml -K
-```
-
-This installs:
-- neovim
-- tmux
-- mise
-- Various development tools and applications
 
 ## Post-Installation
 
@@ -166,8 +132,7 @@ chezmoi update
 │   ├── aerospace/            # Window manager config
 │   ├── ghostty/              # Terminal config
 │   ├── mise/                 # Version manager config
-│   ├── ohmyzsh/              # Custom Oh My Zsh files
-│   └── mac-dev-playbook/     # Ansible playbook config
+│   └── ohmyzsh/              # Custom Oh My Zsh files
 ├── dot_zshrc                 # Zsh configuration
 ├── dot_zprofile              # Zsh profile
 └── AGENTS.md                 # Guide for coding agents

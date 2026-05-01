@@ -222,10 +222,6 @@ The `dot_config/mise/config.toml` manages tool versions:
 - node:24.14.0
 - python:3.14.3
 
-### Tools Managed by Homebrew (mac-dev-playbook)
-
-See `dot_config/mac-dev-playbook/config.yml` for the full list of installed packages.
-
 ## Key Configuration Locations
 
 | Source Path | Destination |
