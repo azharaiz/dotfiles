@@ -1,0 +1,12 @@
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[user]
+	email = {{ gopass "gitconfig/user/email" }}
+	name = Azhar Rais
+	signingkey = {{ gopass "gitconfig/user/signingKey" }}
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/

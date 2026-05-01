@@ -8,6 +8,7 @@ configure_sublime: false
 
 homebrew_taps:
   - anomalyco/tap
+  - y3owk1n/tap
 
   # TODO: Revisit
   # - FelixKratz/formulae
@@ -50,6 +51,7 @@ homebrew_installed_packages:
   # Containers
   - colima
   - docker
+  - docker-compose
 
   # Utility
   - mole
@@ -66,14 +68,11 @@ homebrew_cask_apps:
   - keepassxc
   - gpg-suite
   - little-snitch
-  - yubico-authenticator
   - cryptomator
   - veracrypt
-  - bitwarden
 
   # Productivity
   - obsidian
-  - ticktick
   - libreoffice
 
   # Browsers
@@ -88,15 +87,11 @@ homebrew_cask_apps:
   - raycast
   - aldente
   - lunar
-  - the-unarchiver
-  - localsend
-  - hiddenbar
   - cleanshot
 
   # Navigation
   - nikitabobko/tap/aerospace
-  - homerow
-  - mouseless
+  - y3owk1n/tap/neru
 
   # Development
   - ghostty
@@ -107,19 +102,25 @@ homebrew_cask_apps:
 
   # Work
   - google-chrome
-  - slack
   - gcloud-cli
   - postman
   - dbeaver-community
-
-  # Social
-  - telegram
 
 homebrew_cask_appdir: /Applications
 
 mas_installed_apps:
   - { id: 937984704, name: "Amphetamine" }
   - { id: 497799835, name: "Xcode" }
+  - { id: 1085114709, name: "Parallels Desktop" }
+  - { id: 803453959, name: "Slack for Desktop" }
+  - { id: 747648890, name: "Telegram" }
+  - { id: 1661733229, name: "LocalSend" }
+  - { id: 1497506650, name: "Yubico Authenticator" }
+  - { id: 1352778147, name: "Bitwarden" }
+  - { id: 6720708363, name: "Obsidian Web Clipper" }
+  - { id: 966085870, name: "TickTick" }
+  - { id: 425424353, name: "The Unarchiver" }
+  - { id: 1452453066, name: "Hidden Bar" }
 
 mas_email: ""
 mas_password: ""

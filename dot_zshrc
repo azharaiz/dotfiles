@@ -114,3 +114,6 @@ fi
 srz () {
   source $HOME/.zshrc
 }
+
+alias v="nvim"
+alias p="pi"
