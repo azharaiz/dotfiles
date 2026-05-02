@@ -6,6 +6,36 @@ This document provides guidance for agentic coding agents working in this chezmo
 
 This is a chezmoi-managed dotfiles repository containing configuration files for various development tools. The source files are stored here and deployed to the home directory via chezmoi.
 
+## Hooks and Automated Dependency Management
+
+This repository uses chezmoi hooks to automate dependency installation. Running `chezmoi apply` triggers these hooks automatically.
+
+### Execution Order
+
+1. **Pre-hook** (`.chezmoi.toml.tmpl` → `.install-prerequisites.sh`): Installs Homebrew if missing, then installs gopass if missing (needed for template secrets)
+2. **run_onchange_before** (`run_onchange_before_install-packages.sh.tmpl`): Runs `brew bundle` when `.chezmoidata/packages.yaml` changes — installs all taps, brews, casks, and Mac App Store apps
+3. Files are applied to destination
+4. **run_once_after** (`run_once_after_install-deps.sh`): Installs Oh My Zsh and clones tmux plugin manager (TPM)
+
+### Adding New Dependencies
+
+Edit `.chezmoidata/packages.yaml` — do NOT install manually with `brew install`.
+
+| Dependency Type | YAML Section | Example |
+|-----------------|-------------|---------|
+| CLI tools | `packages.darwin.brews` | `- "ripgrep"` |
+| GUI applications | `packages.darwin.casks` | `- "ghostty"` |
+| Homebrew taps | `packages.darwin.taps` | `- "y3owk1n/tap"` |
+| Mac App Store apps | `packages.darwin.mas` | `- { id: 937984704, name: "Amphetamine" }` |
+
+### Template Files (*.tmpl)
+
+Files ending in `.tmpl` use Go template syntax. Some use gopass for secrets:
+
+- `.chezmoi.toml.tmpl` — Chezmoi configuration, defines the pre-hook
+- `dot_gitconfig.tmpl` — Git config, uses `{{ gopass "gitconfig/user/email" }}` for secrets
+- `run_onchange_before_install-packages.sh.tmpl` — Generates Brewfile from packages.yaml data
+
 ## Build/Lint/Test Commands
 
 ### Chezmoi Commands
@@ -34,6 +64,12 @@ chezmoi re-add
 
 # Pull and apply changes
 chezmoi update
+
+# List all managed files with their source paths
+chezmoi managed --path-style=source-relative
+
+# See what hooks will run
+chezmoi apply -n -v
 ```
 
 ### Neovim/LazyVim Commands
@@ -121,7 +157,7 @@ return {
 ### Shell Scripts (Zsh)
 
 **Formatting:**
-- Use 2 spaces for indentation
+- Use 4 spaces for indentation
 - Use `snake_case` for function names
 - Functions use `function_name() { }` syntax
 
@@ -148,6 +184,11 @@ Files in this repository use chezmoi's naming conventions:
 - `dot_config/<path>` → `.config/<path>` in destination
 - `executable_<name>` → executable script in destination
 - `private_<name>` → private file (600 permissions)
+- `run_once_before_<name>` → runs once before files are applied (e.g., installing Oh My Zsh)
+- `run_once_after_<name>` → runs once after files are applied (e.g., cloning TPM)
+- `run_onchange_before_<name>` → runs before apply when content changes (e.g., package install)
+- `*.tmpl` → Go template file, processed by chezmoi before applying
+- `.chezmoidata/*.yaml` → data files available in templates as `.variable`
 
 ### Neovim Configuration Files
 
@@ -222,16 +263,55 @@ The `dot_config/mise/config.toml` manages tool versions:
 - node:24.14.0
 - python:3.14.3
 
+### Oh My Zsh Plugins
+
+Active plugins configured in `dot_zshrc`:
+- `aliases` — alias management
+- `git` — git aliases and functions
+- `mise` — mise version manager integration
+- `zoxide` — smart directory jumping
+- `gpg-agent` — GPG agent management
+- `tmux` — tmux integration
+
+### Custom Zsh Functions
+
+Defined in `dot_config/ohmyzsh/func.zsh` and `dot_config/ohmyzsh/plugins/zoxide/zoxide.plugin.zsh`:
+
+| Function | Description |
+|----------|-------------|
+| `srz` | Reload zsh configuration |
+| `mkcdir` | Create directory and cd into it |
+| `zr` | Fuzzy jump to recent zoxide directory |
+| `zp` | Fuzzy jump to projects directory |
+| `zw` | Fuzzy jump to works directory |
+| `zs` | Fuzzy jump to sandbox directory |
+
+### Shell Aliases
+
+Defined in `dot_zshrc`:
+
+| Alias | Command |
+|-------|---------|
+| `v` | `nvim` |
+| `p` | `pi` |
+| `o` | `opencode` |
+| `c` | `claude` |
+
 ## Key Configuration Locations
 
-| Source Path | Destination |
-|-------------|-------------|
-| `dot_config/nvim/` | `~/.config/nvim/` |
-| `dot_zshrc` | `~/.zshrc` |
-| `dot_zprofile` | `~/.zprofile` |
-| `dot_config/mise/config.toml` | `~/.config/mise/config.toml` |
-| `dot_config/ghostty/config` | `~/.config/ghostty/config` |
-| `dot_config/aerospace/aerospace.toml` | `~/.config/aerospace/aerospace.toml` |
+| Source Path | Destination | Description |
+|-------------|-------------|-------------|
+| `dot_config/nvim/` | `~/.config/nvim/` | Neovim (LazyVim) configuration |
+| `dot_config/tmux/` | `~/.config/tmux/` | Tmux terminal multiplexer + TPM |
+| `dot_config/neru/` | `~/.config/neru/` | Keyboard/mouse navigation utility |
+| `dot_config/aerospace/` | `~/.config/aerospace/` | AeroSpace window manager |
+| `dot_config/ghostty/` | `~/.config/ghostty/` | Ghostty terminal emulator |
+| `dot_config/mise/config.toml` | `~/.config/mise/config.toml` | mise version manager |
+| `dot_config/ohmyzsh/` | `~/.config/ohmyzsh/` | Custom Oh My Zsh plugins/functions |
+| `dot_zshrc` | `~/.zshrc` | Zsh configuration |
+| `dot_zprofile` | `~/.zprofile` | Zsh profile |
+| `dot_gitconfig.tmpl` | `~/.gitconfig` | Git config (templated, uses gopass) |
+| `.chezmoidata/packages.yaml` | (data only) | Homebrew dependency manifest |
 
 ## Testing Configuration Changes
 
@@ -241,12 +321,17 @@ After modifying configuration files:
 2. Reload the affected application
 3. For Neovim: restart or run `:Lazy sync`
 4. For zsh: run `source ~/.zshrc` or `srz` function
+5. For tmux: restart tmux or run `tmux source ~/.config/tmux/tmux.conf`
 
 ## Notes
 
 - This repository manages dotfiles for macOS
-- Configuration assumes Homebrew is installed
+- Homebrew is auto-installed by the pre-hook if missing
 - Neovim configuration is based on LazyVim
 - Window management uses AeroSpace
 - Terminal is Ghostty
 - Version management uses mise
+- Tmux is configured with TPM (Tmux Plugin Manager)
+- Neru provides keyboard/mouse navigation (from y3owk1n/tap)
+- gopass is used for secrets in template files
+- All Homebrew dependencies are managed via `.chezmoidata/packages.yaml`
