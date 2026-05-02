@@ -117,3 +117,5 @@ srz () {
 
 alias v="nvim"
 alias p="pi"
+alias o="opencode"
+alias c="claude"
