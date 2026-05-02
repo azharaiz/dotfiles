@@ -77,8 +77,17 @@ ignore_clickable_check = false
 [hints.additional_ax_support]
 enable = true                              # Enable enhanced AX for Electron/Chromium/Firefox apps
 additional_electron_bundles = []
-additional_chromium_bundles = []
-additional_firefox_bundles = []
+additional_chromium_bundles = [
+  "com.brave.Browser"
+]
+additional_firefox_bundles = [
+  "net.mullvad.mullvadbrowser"
+]
+
+# Firefox-specific hint configuration
+[[hints.app_configs]]
+bundle_id = "org.mozilla.firefox"
+additional_clickable_roles = ["AXStaticText", "AXImage", "AXGroup"]
 
 [hints.ui]
 font_size = 10
