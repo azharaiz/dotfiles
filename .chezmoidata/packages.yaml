@@ -59,6 +59,7 @@ packages:
       # Productivity
       - "obsidian"
       - "libreoffice"
+      - "zotero"
 
       # Browsers
       - "browserosaurus"
