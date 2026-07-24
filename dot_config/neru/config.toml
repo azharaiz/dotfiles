@@ -57,7 +57,7 @@ clickable_roles = [
     "AXMenuButton",
     "AXMenuItem",
     "AXCell",
-    "AXRow",
+    "AXRow"
 ]
 ignore_clickable_check = false
 
@@ -78,7 +78,10 @@ ignore_clickable_check = false
 enable = true                              # Enable enhanced AX for Electron/Chromium/Firefox apps
 additional_electron_bundles = []
 additional_chromium_bundles = [
-  "com.brave.Browser"
+  "com.brave.Browser",
+  "com.brave.Browser.app.*",
+  "com.google.Chrome",
+  "com.google.Chrome.app.*",
 ]
 additional_firefox_bundles = [
   "net.mullvad.mullvadbrowser"
@@ -87,6 +90,14 @@ additional_firefox_bundles = [
 # Firefox-specific hint configuration
 [[hints.app_configs]]
 bundle_id = "org.mozilla.firefox"
+additional_clickable_roles = ["AXStaticText", "AXImage", "AXGroup"]
+
+[[hints.app_configs]]
+bundle_id = "net.mullvad.mullvadbrowser"
+additional_clickable_roles = ["AXStaticText", "AXImage", "AXGroup"]
+
+[[hints.app_configs]]
+bundle_id = "com.brave.Browser"
 additional_clickable_roles = ["AXStaticText", "AXImage", "AXGroup"]
 
 [hints.ui]
