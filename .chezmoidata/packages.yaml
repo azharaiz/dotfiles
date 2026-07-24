@@ -64,7 +64,6 @@ packages:
       # Browsers
       - "browserosaurus"
       - "brave-browser"
-      - "librewolf"
       - "firefox"
       - "orion"
       - "mullvad-browser"
@@ -91,7 +90,7 @@ packages:
       - "gcloud-cli"
       - "postman"
       - "dbeaver-community"
-      - "claude-code"
+      - "claude-code@latest"
     mas:
       - { id: 937984704, name: "Amphetamine" }
       - { id: 497799835, name: "Xcode" }
@@ -104,3 +103,4 @@ packages:
       - { id: 966085870, name: "TickTick" }
       - { id: 425424353, name: "The Unarchiver" }
       - { id: 1452453066, name: "Hidden Bar" }
+      - { id: 310633997, name: "WhatsApp Messenger" }
