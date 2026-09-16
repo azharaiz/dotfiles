@@ -62,8 +62,8 @@ automatically-unhide-macos-hidden-apps = false
     outer.right =      [{monitor."G34w-30" = 5}, 3]
 
 [workspace-to-monitor-force-assignment]
-    O = ['G34w-30']
-    P = ['G34w-30']
+    O = ['G34w-30', 'secondary']
+    P = ['G34w-30', 'secondary']
 
 # App Automation
 [[on-window-detected]]

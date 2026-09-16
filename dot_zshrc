@@ -83,6 +83,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+export PATH="/Users/azharaiz/.bun/bin:$PATH"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -115,8 +116,17 @@ srz () {
   source $HOME/.zshrc
 }
 
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+
 alias v="nvim"
-alias p="pi"
+alias p="omp"
+alias pw="omp --profile work"
 alias o="opencode"
 alias c="claude"
 alias t="tmux"
+alias lg="lazygit"
+alias h="herdr"
+alias hw="herdr session attach flip"
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

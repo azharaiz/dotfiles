@@ -1,7 +1,7 @@
 [tools]
 bun = "latest"
 go = "1.24.13"
-java = "21"
+java = "17.0.2"
 node = "24.14.0"
 pi = "latest"
 python = "3.14.3"

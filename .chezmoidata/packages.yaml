@@ -44,6 +44,7 @@ packages:
       # Utility
       - "mole"
       - "zoxide"
+      - "kanata"
 
       # Mac App Store
       - "mas"
