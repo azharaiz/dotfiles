@@ -1,12 +1,17 @@
+{{- $machineType := .machineType | default "normal" -}}
+{{- if eq $machineType "normal" }}
 [gpg]
 	program = gpg
+{{- end }}
 [commit]
-	gpgsign = true
+	gpgsign = {{ eq $machineType "normal" }}
 [tag]
-	gpgsign = true
+	gpgsign = {{ eq $machineType "normal" }}
 [user]
 	email = {{ gopass "gitconfig/user/email" }}
 	name = Azhar Rais
+{{- if eq $machineType "normal" }}
 	signingkey = {{ gopass "gitconfig/user/signingKey" }}
+{{- end }}
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/

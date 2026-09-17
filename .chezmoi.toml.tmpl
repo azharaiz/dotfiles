@@ -1,2 +1,6 @@
+{{- $machineType := promptChoiceOnce . "machineType" "Machine type" (list "normal" "server") -}}
+[data]
+  machineType = {{ $machineType | quote }}
+
 [hooks.read-source-state.pre]
-    command = "{{ .chezmoi.sourceDir }}/.install-prerequisites.sh"
+  command = "{{ .chezmoi.sourceDir }}/.install-prerequisites.sh"
