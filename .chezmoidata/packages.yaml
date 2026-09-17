@@ -1,7 +1,6 @@
 packages:
   darwin:
     taps:
-      - "anomalyco/tap"
       - "y3owk1n/tap"
     brews:
       # Privacy
@@ -11,7 +10,8 @@ packages:
       - "chezmoi"
       - "neovim"
       - "tmux"
-      - "anomalyco/tap/opencode"
+      - "herdr"
+      - "omp"
 
       # LazyVim
       - "lazygit"
@@ -63,7 +63,6 @@ packages:
       - "zotero"
 
       # Browsers
-      - "browserosaurus"
       - "brave-browser"
       - "firefox"
       - "orion"
@@ -89,8 +88,6 @@ packages:
       # Work
       - "google-chrome"
       - "gcloud-cli"
-      - "postman"
-      - "dbeaver-community"
       - "claude-code@latest"
     mas:
       - { id: 937984704, name: "Amphetamine" }
@@ -105,3 +102,4 @@ packages:
       - { id: 425424353, name: "The Unarchiver" }
       - { id: 1452453066, name: "Hidden Bar" }
       - { id: 310633997, name: "WhatsApp Messenger" }
+      - { id: 1607635845, name: "Velja" }

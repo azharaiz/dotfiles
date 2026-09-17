@@ -1,0 +1,64 @@
+onboarding = false
+
+[ui]
+status_indicators = "symbols"
+sidebar_start_collapsed = true
+# agent panel: blocked/attention agents float to top
+agent_panel_sort = "priority"
+
+[ui.sound]
+enabled = true
+
+[ui.toast]
+delivery = "terminal"
+
+[keys]
+# navigate mode (prefix+w): h/j/k/l panes (default), shift+j/k workspaces
+navigate_workspace_up = "shift+k"
+navigate_workspace_down = "shift+j"
+# prefix+shift+1..9 switches workspaces (mirrors switch_tab = "prefix+1..9")
+switch_workspace = "prefix+shift+1..9"
+# agent navigation (all free vs defaults; prefix+o is taken by nvim pick-file below)
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+focus_agent = "prefix+alt+1..9"
+last_pane = "prefix+backtick"
+open_notification_target = "prefix+shift+o"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (vim/herdr)"
+
+[[keys.command]]
+key = "prefix+e"
+# wrapper around chmarax.herdr-nvim.toggle: nudges focus after opening so the
+# cold-start nvim picks up the real pane size instead of the full-terminal one
+type = "shell"
+command = "/Users/azharaiz/.config/herdr/scripts/nvim-sidebar-toggle.sh"
+description = "nvim sidebar"
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.pick-file"
+description = "open file from agent output"
