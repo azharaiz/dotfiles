@@ -77,13 +77,12 @@ plugins=(
   mise
   zoxide
   gpg-agent
-  tmux
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export PATH="/Users/azharaiz/.bun/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -124,7 +123,6 @@ alias p="omp"
 alias pw="omp --profile work"
 alias o="opencode"
 alias c="claude"
-alias t="tmux"
 alias lg="lazygit"
 alias h="herdr"
 alias hw="herdr session attach flip"

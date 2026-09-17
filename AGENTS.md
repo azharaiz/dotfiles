@@ -1,337 +1,223 @@
 # AGENTS.md - Chezmoi Dotfiles Repository
 
-This document provides guidance for agentic coding agents working in this chezmoi-managed dotfiles repository.
+Guidance for coding agents working in this macOS chezmoi source repository.
 
-## Repository Overview
+## Repository Scope
 
-This is a chezmoi-managed dotfiles repository containing configuration files for various development tools. The source files are stored here and deployed to the home directory via chezmoi.
+Chezmoi source files in this repository are rendered or copied into the user's home directory. Edit source files here, never deployed files under `~/.config` or `~/.zshrc`.
 
-## Hooks and Automated Dependency Management
+Managed configuration includes:
 
-This repository uses chezmoi hooks to automate dependency installation. Running `chezmoi apply` triggers these hooks automatically.
+- AeroSpace window and workspace management
+- Ghostty terminal configuration
+- Herdr agent workspace UI and Neovim integration
+- Kanata keyboard remapping and Kanata Tray presets
+- mise runtime versions
+- Neru keyboard and mouse navigation
+- LazyVim-based Neovim configuration
+- Oh My Zsh plugins and helper functions
+- skhd Hyper-key application shortcuts
+- Machine-specific Git configuration
 
-### Execution Order
+Tmux is not part of the user-facing toolset. The `christoomey/vim-tmux-navigator` plugin is intentionally retained because `vim-herdr-navigation` uses it for navigation between Neovim splits and Herdr panes.
 
-1. **Pre-hook** (`.chezmoi.toml.tmpl` → `.install-prerequisites.sh`): Installs Homebrew if missing, then installs gopass if missing (needed for template secrets)
-2. **run_onchange_before** (`run_onchange_before_install-packages.sh.tmpl`): Runs `brew bundle` when `.chezmoidata/packages.yaml` changes — installs all taps, brews, casks, and Mac App Store apps
-3. Files are applied to destination
-4. **run_once_after** (`run_once_after_install-deps.sh`): Installs Oh My Zsh and clones tmux plugin manager (TPM)
+## Bootstrap and Secrets
 
-### Adding New Dependencies
+Initial setup is intentionally staged:
 
-Edit `.chezmoidata/packages.yaml` — do NOT install manually with `brew install`.
+1. Run `chezmoi init --apply --skip-secrets` so Homebrew, gopass, packages, and non-secret dotfiles can be installed without an initialized password store.
+2. Clone the gopass store with the YubiKey connected.
+3. Verify `gitconfig/user/email`; on a `normal` machine also verify `gitconfig/user/signingKey`.
+4. Run `chezmoi apply` to render the complete Git configuration.
 
-| Dependency Type | YAML Section | Example |
-|-----------------|-------------|---------|
-| CLI tools | `packages.darwin.brews` | `- "ripgrep"` |
-| GUI applications | `packages.darwin.casks` | `- "ghostty"` |
-| Homebrew taps | `packages.darwin.taps` | `- "y3owk1n/tap"` |
-| Mac App Store apps | `packages.darwin.mas` | `- { id: 937984704, name: "Amphetamine" }` |
+The `.chezmoi.toml.tmpl` prompt stores one of two `machineType` values:
 
-### Template Files (*.tmpl)
+| Type | Git behavior |
+| --- | --- |
+| `normal` | Uses `gpg`, resolves the signing key from gopass, and signs commits and tags |
+| `server` | Omits the signing key and explicitly disables commit and tag signing |
 
-Files ending in `.tmpl` use Go template syntax. Some use gopass for secrets:
+Both machine types resolve the Git email from `gitconfig/user/email` in gopass.
 
-- `.chezmoi.toml.tmpl` — Chezmoi configuration, defines the pre-hook
-- `dot_gitconfig.tmpl` — Git config, uses `{{ gopass "gitconfig/user/email" }}` for secrets
-- `run_onchange_before_install-packages.sh.tmpl` — Generates Brewfile from packages.yaml data
+## Hooks and Dependency Management
 
-## Build/Lint/Test Commands
+`chezmoi apply` uses this order:
 
-### Chezmoi Commands
+1. `hooks.read-source-state.pre` runs `.install-prerequisites.sh`.
+2. The prerequisite hook installs Homebrew and the gopass CLI if missing. It does not initialize or clone the password store.
+3. `run_onchange_before_install-packages.sh.tmpl` renders a Brewfile from `.chezmoidata/packages.yaml` and runs `brew bundle`.
+4. Managed files are applied.
+5. `run_once_after_install-deps.sh` installs Oh My Zsh when absent.
 
-```bash
-# Preview changes between source and destination
-chezmoi diff
+The package hook resolves Homebrew from `/opt/homebrew/bin/brew` or `/usr/local/bin/brew`; environment changes made inside the prerequisite hook cannot propagate to chezmoi.
 
-# Apply changes from source to destination
-chezmoi apply
+### Adding Dependencies
 
-# Edit a source file (opens in $EDITOR)
-chezmoi edit <file>
+Edit `.chezmoidata/packages.yaml`; do not add ad hoc `brew install` calls.
 
-# Edit a specific file directly
-chezmoi edit ~/.config/nvim/lua/config/options.lua
+| Dependency type | YAML section | Example |
+| --- | --- | --- |
+| Homebrew tap | `packages.darwin.taps` | `- "y3owk1n/tap"` |
+| CLI/formula | `packages.darwin.brews` | `- "ripgrep"` |
+| GUI application | `packages.darwin.casks` | `- "ghostty"` |
+| Mac App Store application | `packages.darwin.mas` | `- { id: 937984704, name: "Amphetamine" }` |
 
-# Check for potential problems
-chezmoi doctor
+Exceptions and current gaps:
 
-# View managed files
-chezmoi managed
+- gopass is installed by `.install-prerequisites.sh` because templates need it before package application.
+- The repository manages `skhd` and `kanata-tray` configuration, but their binaries are not provisioned by `.chezmoidata/packages.yaml`.
 
-# Re-add modified files
-chezmoi re-add
+## Key Paths
 
-# Pull and apply changes
-chezmoi update
+| Source path | Destination or role |
+| --- | --- |
+| `.chezmoi.toml.tmpl` | Generates chezmoi config, machine type, and pre-hook |
+| `.chezmoidata/packages.yaml` | Homebrew, cask, tap, and Mac App Store manifest |
+| `.install-prerequisites.sh` | Installs Homebrew and gopass CLI |
+| `run_onchange_before_install-packages.sh.tmpl` | Generates and applies Brewfile |
+| `run_once_after_install-deps.sh` | Installs Oh My Zsh |
+| `dot_gitconfig.tmpl` | `~/.gitconfig`, with machine-specific signing |
+| `dot_zshrc` | `~/.zshrc` |
+| `dot_zprofile` | `~/.zprofile` |
+| `dot_config/aerospace/` | `~/.config/aerospace/` |
+| `dot_config/ghostty/` | `~/.config/ghostty/` |
+| `dot_config/herdr/` | `~/.config/herdr/` |
+| `dot_config/kanata/` | `~/.config/kanata/` |
+| `dot_config/kanata-tray/` | `~/.config/kanata-tray/` |
+| `dot_config/mise/` | `~/.config/mise/` |
+| `dot_config/neru/` | `~/.config/neru/` |
+| `dot_config/nvim/` | `~/.config/nvim/` |
+| `dot_config/ohmyzsh/` | `~/.config/ohmyzsh/` |
+| `dot_config/skhd/` | `~/.config/skhd/` |
 
-# List all managed files with their source paths
-chezmoi managed --path-style=source-relative
+`.chezmoiignore` excludes `README.md`, `AGENTS.md`, `dot_config/nvim/lazy-lock.json`, and the Kanata Tray last-run state from deployment.
 
-# See what hooks will run
-chezmoi apply -n -v
-```
+## Current Tool Configuration
 
-### Neovim/LazyVim Commands
+### mise
 
-```bash
-# Format Lua files using stylua (installed via Mason)
-# From within Neovim:
-:lua vim.lsp.buf.format()
+`dot_config/mise/config.toml` manages:
 
-# Or run stylua directly:
-stylua <file.lua>
-
-# LazyVim plugin management (from within Neovim)
-:Lazy              " Open Lazy plugin manager
-:Lazy sync         " Sync plugins
-:Lazy clean        " Clean unused plugins
-:Lazy check        " Check for updates
-```
-
-### Git Commands
-
-```bash
-# Standard git workflow for this repo
-git status
-git add -A && git commit -m "message"
-git push
-```
-
-## Code Style Guidelines
-
-### Lua (Neovim Configuration)
-
-**Formatting (stylua.toml):**
-- Indent type: Spaces
-- Indent width:2 spaces
-- Column width: 120 characters
-
-**Imports:**
-- Use `require()` for module imports
-- LazyVim auto-loads plugins; explicitimports not always needed
-- Order: standard libraries first, then plugins, then local modules
-
-**Plugin Specifications:**
-```lua
--- Plugin spec pattern
-return {
-  "author/plugin-name",
-  event = "VeryLazy",          -- Use lazy-loading events
-  dependencies = { "dep1", "dep2" },
-  opts = {
-    -- configuration options
-  },
-  config = function(_, opts)
-    -- setup code
-  end,
-}
-```
-
-**Naming Conventions:**
-- Use snake_case for variables and functions
-- Use PascalCase for table keys that represent classes
-- Plugin configs return a table/list of plugin specs
-
-**Comments:**
-- Use `--` for single-line comments
-- Use `--[[ ]]` for multi-line comments
-- Comment sections explaining purpose are encouraged
-
-**Code Organization:**
-```lua
--- Structurerecommended for plugin files:
--- 1. Guard clause/early return if needed
--- 2. Return table of plugin specifications
--- 3. Put longer configs in functions
-```
-
-### TOML Configuration Files
-
-**Formatting:**
-- Use 2 spaces for indentation
-- Use `snake_case` for keys
-- Use double quotes for string values
-- Group related settings under sections
-
-### Shell Scripts (Zsh)
-
-**Formatting:**
-- Use 4 spaces for indentation
-- Use `snake_case` for function names
-- Functions use `function_name() { }` syntax
-
-**Example:**
-```zsh
-mkcdir() {
-    mkdir -p -- "$1" && cd -P -- "$1"
-}
-```
-
-### YAML Configuration Files
-
-**Formatting:**
-- Use 2 spaces for indentation
-- Use `snake_case` for keys
-- Use `- ` for list items with space after dash
-
-## File Naming Conventions
-
-### Chezmoi Source Files
-
-Files in this repository use chezmoi's naming conventions:
-- `dot_<name>` → `.<name>` in destination (e.g., `dot_zshrc` → `.zshrc`)
-- `dot_config/<path>` → `.config/<path>` in destination
-- `executable_<name>` → executable script in destination
-- `private_<name>` → private file (600 permissions)
-- `run_once_before_<name>` → runs once before files are applied (e.g., installing Oh My Zsh)
-- `run_once_after_<name>` → runs once after files are applied (e.g., cloning TPM)
-- `run_onchange_before_<name>` → runs before apply when content changes (e.g., package install)
-- `*.tmpl` → Go template file, processed by chezmoi before applying
-- `.chezmoidata/*.yaml` → data files available in templates as `.variable`
-
-### Neovim Configuration Files
-
-- `init.lua` - Main entry point
-- `lua/config/` - Core configuration (options, keymaps, autocmds, lazy)
-- `lua/plugins/` - Plugin specifications (each file returns a table)
-- Plugin files are loaded automatically by Lazy.nvim
-
-## Important Patterns
-
-### Adding New Dotfiles
-
-```bash
-# Add a new file to chezmoi management
-chezmoi add ~/.config/some-app/config
-
-# The file will be created as:
-# dot_config/some-app/config (forfiles in ~/.config/)
-```
-
-### Editing Configuration Files
-
-```bash
-# Always edit the SOURCE file, not the destination
-chezmoi edit ~/.config/nvim/lua/config/options.lua
-
-# Or edit directly in the source directory:
-# ~/.local/share/chezmoi/dot_config/nvim/lua/config/options.lua
-```
-
-### Modifying LazyVim Settings
-
-- Override options in `lua/config/options.lua`
-- Add keymaps in `lua/config/keymaps.lua`
-- Add autocmds in `lua/config/autocmds.lua`
-- Add/modify plugins in `lua/plugins/*.lua`
-
-### Plugin Management
-
-Plugins are managed by Lazy.nvim:
-- New plugins go in `lua/plugins/` directory
-- Each file returns a table of plugin specs
-- Use `{ import = "lazyvim.plugins.extras..." }` for LazyVim extras
-
-## Error Handling
-
-### Lua Error Handling
-
-- Use `pcall()` for potentially failing operations
-- LazyVim handles most plugin errors gracefully
-- Check `:messages` in Neovim for error details
-
-### Chezmoi Troubleshooting
-
-```bash
-# Check for issues
-chezmoi doctor
-
-# Verbose output
-chezmoi apply -v
-
-# Dry run to see what would change
-chezmoi apply -n
-```
-
-## Development Tools
-
-### Tools Managed by mise
-
-The `dot_config/mise/config.toml` manages tool versions:
-- go:1.24.13
-- node:24.14.0
-- python:3.14.3
-
-### Oh My Zsh Plugins
-
-Active plugins configured in `dot_zshrc`:
-- `aliases` — alias management
-- `git` — git aliases and functions
-- `mise` — mise version manager integration
-- `zoxide` — smart directory jumping
-- `gpg-agent` — GPG agent management
-- `tmux` — tmux integration
-
-### Custom Zsh Functions
-
-Defined in `dot_config/ohmyzsh/func.zsh` and `dot_config/ohmyzsh/plugins/zoxide/zoxide.plugin.zsh`:
-
-| Function | Description |
-|----------|-------------|
-| `srz` | Reload zsh configuration |
-| `mkcdir` | Create directory and cd into it |
-| `zr` | Fuzzy jump to recent zoxide directory |
-| `zp` | Fuzzy jump to projects directory |
-| `zw` | Fuzzy jump to works directory |
-| `zs` | Fuzzy jump to sandbox directory |
-
-### Shell Aliases
-
-Defined in `dot_zshrc`:
+| Tool | Version |
+| --- | --- |
+| Bun | `latest` |
+| Go | `1.24.13` |
+| Java | `17.0.2` |
+| Node.js | `24.14.0` |
+| Pi | `latest` |
+| Python | `3.14.3` |
+| Rust | `latest` |
+
+### Zsh
+
+Active Oh My Zsh plugins:
+
+- `aliases`
+- `git`
+- `mise`
+- `zoxide`
+- `gpg-agent`
+
+Aliases in `dot_zshrc`:
 
 | Alias | Command |
-|-------|---------|
+| --- | --- |
 | `v` | `nvim` |
-| `p` | `pi` |
+| `p` | `omp` |
+| `pw` | `omp --profile work` |
 | `o` | `opencode` |
 | `c` | `claude` |
+| `lg` | `lazygit` |
+| `h` | `herdr` |
+| `hw` | `herdr session attach flip` |
 
-## Key Configuration Locations
+Custom functions:
 
-| Source Path | Destination | Description |
-|-------------|-------------|-------------|
-| `dot_config/nvim/` | `~/.config/nvim/` | Neovim (LazyVim) configuration |
-| `dot_config/tmux/` | `~/.config/tmux/` | Tmux terminal multiplexer + TPM |
-| `dot_config/neru/` | `~/.config/neru/` | Keyboard/mouse navigation utility |
-| `dot_config/aerospace/` | `~/.config/aerospace/` | AeroSpace window manager |
-| `dot_config/ghostty/` | `~/.config/ghostty/` | Ghostty terminal emulator |
-| `dot_config/mise/config.toml` | `~/.config/mise/config.toml` | mise version manager |
-| `dot_config/ohmyzsh/` | `~/.config/ohmyzsh/` | Custom Oh My Zsh plugins/functions |
-| `dot_zshrc` | `~/.zshrc` | Zsh configuration |
-| `dot_zprofile` | `~/.zprofile` | Zsh profile |
-| `dot_gitconfig.tmpl` | `~/.gitconfig` | Git config (templated, uses gopass) |
-| `.chezmoidata/packages.yaml` | (data only) | Homebrew dependency manifest |
+- `srz` reloads `~/.zshrc`.
+- `mkcdir` creates a directory and enters it.
+- `zr`, `zp`, `zw`, and `zs` query zoxide through fzf.
 
-## Testing Configuration Changes
+### Neovim
 
-After modifying configuration files:
+- LazyVim version 8 configuration.
+- Language extras: Docker, Git, Go, JSON, Markdown, Tailwind, Terraform, TOML, TypeScript, and YAML.
+- Formatting/linting extras: Prettier and ESLint.
+- `herdr-nvim` uses `<leader>h`.
+- `vim-herdr-navigation` is loaded from `dot_config/nvim/lua/config/keymaps.lua`.
+- `herdr-navigator.lua` and `vim-tmux-navigator` are required for Herdr navigation and must not be removed as stale tmux configuration.
+- Bufferline and Flash are disabled.
+- Sidekick is currently disabled; its tmux multiplexer override has been removed.
+- `lazy-lock.json` is tracked in the source repository but ignored by chezmoi deployment.
 
-1. Apply changes: `chezmoi apply`
-2. Reload the affected application
-3. For Neovim: restart or run `:Lazy sync`
-4. For zsh: run `source ~/.zshrc` or `srz` function
-5. For tmux: restart tmux or run `tmux source ~/.config/tmux/tmux.conf`
+### Keyboard and Navigation
 
-## Notes
+- Holding Space in Kanata produces Hyper (`Ctrl + Alt + Cmd + Shift`).
+- skhd maps Hyper shortcuts to Ghostty, Firefox, Slack, and Google Chrome.
+- Neru entry bindings use `Primary+Shift+Space/G/C/S`.
+- Herdr and Neovim share `Ctrl+h/j/k/l` navigation through `vim-herdr-navigation`.
+- AeroSpace owns `Alt` workspace, focus, move, resize, and service-mode bindings.
 
-- This repository manages dotfiles for macOS
-- Homebrew is auto-installed by the pre-hook if missing
-- Neovim configuration is based on LazyVim
-- Window management uses AeroSpace
-- Terminal is Ghostty
-- Version management uses mise
-- Tmux is configured with TPM (Tmux Plugin Manager)
-- Neru provides keyboard/mouse navigation (from y3owk1n/tap)
-- gopass is used for secrets in template files
-- All Homebrew dependencies are managed via `.chezmoidata/packages.yaml`
+## Editing Conventions
+
+### Chezmoi
+
+- Use chezmoi source names: `dot_<name>`, `dot_config/<path>`, `private_<name>`, and `*.tmpl`.
+- Go-template files must remain valid both before and after rendering.
+- Keep secret lookups out of the initial `--skip-secrets` bootstrap path.
+- Migrate all machine-type branches together; do not leave implicit signing behavior.
+
+### Lua
+
+- Format with the repository's `stylua.toml`: 2-space indentation and 120-column width.
+- Plugin files under `lua/plugins/` return Lazy.nvim specs.
+- Prefer `opts` over custom `config` functions when the plugin supports it.
+- Keep Herdr navigation loading in `lua/config/keymaps.lua`; LazyVim overwrites the relevant mappings during `VeryLazy`.
+
+### Shell
+
+- Use 4-space indentation in shell functions and scripts.
+- Use `set -euo pipefail` for Bash hooks.
+- Hooks must be idempotent.
+- Do not assume PATH changes in one hook propagate to another process.
+
+### TOML and YAML
+
+- Use 2-space indentation for new TOML.
+- Use double-quoted TOML strings unless the existing file consistently uses another style.
+- Use 2-space YAML indentation and `- ` list items.
+
+## Commands and Verification
+
+### Chezmoi
+
+```bash
+chezmoi diff
+chezmoi apply
+chezmoi doctor
+chezmoi managed --path-style=source-relative
+chezmoi update
+```
+
+Hooks run while chezmoi reads source state, including during some dry-run operations. Do not run repository-wide apply commands merely to validate a template.
+
+### Targeted checks
+
+```bash
+# Shell syntax
+sh -n .install-prerequisites.sh
+bash -n run_once_after_install-deps.sh
+zsh -n dot_zshrc
+
+# Rendered package-hook syntax
+chezmoi execute-template --file run_onchange_before_install-packages.sh.tmpl | bash -n
+
+# JSON
+jq empty dot_config/nvim/lazy-lock.json
+
+# Lua plugin spec
+nvim --headless -u NONE \
+  -c "lua assert(type(dofile('dot_config/nvim/lua/plugins/herdr-navigator.lua')) == 'table')" \
+  -c qa
+```
+
+For configuration changes, verify the actual affected application or command. Do not expose gopass output in logs.

@@ -11,10 +11,6 @@ return {
             url = "https://github.com/can1357/oh-my-pi",
           },
         },
-        mux = {
-          enabled = true,
-          backend = "tmux",
-        },
         win = {
           layout = "float",
           float = {

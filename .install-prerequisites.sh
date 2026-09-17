@@ -1,10 +1,11 @@
 #!/bin/sh
-# Installs Homebrew and gopass before chezmoi reads source state (templates).
+# Installs Homebrew and the gopass CLI before chezmoi reads source state.
 # Triggered by hooks.read-source-state.pre in chezmoi config.
+# The password store is cloned separately after the initial --skip-secrets apply.
 #
 # Execution order:
 #   1. Install Homebrew (if missing)
-#   2. Install gopass (if missing) — needed for template secret decryption
+#   2. Install the gopass CLI (if missing)
 
 case "$(uname -s)" in
 Darwin)
@@ -21,8 +22,9 @@ Darwin)
     fi
 
     if ! type gopass >/dev/null 2>&1; then
-        echo "Installing gopass..."
+        echo "Installing gopass CLI..."
         brew install gopass
+        echo "Clone the gopass store before applying secret-backed templates."
     fi
     ;;
 *)
