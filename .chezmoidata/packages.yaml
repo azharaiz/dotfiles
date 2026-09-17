@@ -9,7 +9,6 @@ packages:
       # Development
       - "chezmoi"
       - "neovim"
-      - "tmux"
       - "herdr"
       - "omp"
 
