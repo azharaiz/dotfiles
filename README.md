@@ -12,7 +12,7 @@ This repository manages configuration for:
 - **AeroSpace** — tiling window and workspace management
 - **Neru** — keyboard-driven hints, mouse grids, and scrolling
 - **Kanata and Kanata Tray** — keyboard layers, home-row modifiers, chords, and tray startup
-- **skhd** — Hyper-key application shortcuts
+- **skhd.zig** — Hyper-key application shortcuts
 - **Herdr** — agent workspace UI and Neovim integration
 - **mise** — Bun, Go, Java, Node.js, Pi, Python, and Rust versions
 - **Git** — machine-specific signing for `normal` and `server` machines
@@ -101,9 +101,16 @@ Install configured tool versions:
 mise install
 ```
 
-### Config-only integrations
+### Keyboard services
 
-The repository manages `skhd` and `kanata-tray` configuration, but `.chezmoidata/packages.yaml` does not install their binaries. Provision those separately if they should run on a new machine.
+Homebrew installs `skhd.zig` and `kanata-tray` during the initial apply. Register and verify the skhd.zig service after installation:
+
+```bash
+skhd --start-service
+skhd --status
+```
+
+Grant skhd Accessibility and Input Monitoring access when macOS prompts. The Kanata Tray preset expects its Kanata executable at `~/.local/bin/kanata-tray-kanata`; provision that executable separately before using preset autorun.
 
 ## Usage
 
@@ -164,7 +171,7 @@ chezmoi update
 │   ├── neru/                     # Keyboard and mouse navigation
 │   ├── nvim/                     # LazyVim and Herdr navigation
 │   ├── ohmyzsh/                  # Custom Oh My Zsh files
-│   └── skhd/                     # Hyper-key application shortcuts
+│   └── skhd/                     # skhd.zig Hyper-key shortcuts
 ├── AGENTS.md                     # Guide for coding agents
 └── README.md
 ```
@@ -226,7 +233,7 @@ On macOS, `Primary` is the Command key.
 | Chord `q+w` | Escape |
 | Chord `f+j` | Enter |
 
-### skhd
+### skhd.zig
 
 These shortcuts use Kanata's Hyper modifier.
 
@@ -330,5 +337,5 @@ nvim +checkhealth
 - [Ghostty documentation](https://ghostty.org/docs)
 - [Kanata](https://github.com/jtroo/kanata)
 - [Neru](https://github.com/y3owk1n/neru)
-- [skhd](https://github.com/koekeishiya/skhd)
+- [skhd.zig](https://github.com/jackielii/skhd.zig)
 - [mise documentation](https://mise.jdx.dev/)

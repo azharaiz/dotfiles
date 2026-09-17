@@ -1,6 +1,7 @@
 packages:
   darwin:
     taps:
+      - "jackielii/tap"
       - "y3owk1n/tap"
     brews:
       # Privacy
@@ -44,6 +45,7 @@ packages:
       - "mole"
       - "zoxide"
       - "kanata"
+      - "kanata-tray"
 
       # Mac App Store
       - "mas"
@@ -74,6 +76,7 @@ packages:
       - "cleanshot"
 
       # Navigation
+      - "jackielii/tap/skhd-zig"
       - "nikitabobko/tap/aerospace"
       - "y3owk1n/tap/neru"
 

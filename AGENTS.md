@@ -16,7 +16,7 @@ Managed configuration includes:
 - Neru keyboard and mouse navigation
 - LazyVim-based Neovim configuration
 - Oh My Zsh plugins and helper functions
-- skhd Hyper-key application shortcuts
+- skhd.zig Hyper-key application shortcuts
 - Machine-specific Git configuration
 
 Tmux is not part of the user-facing toolset. The `christoomey/vim-tmux-navigator` plugin is intentionally retained because `vim-herdr-navigation` uses it for navigation between Neovim splits and Herdr panes.
@@ -62,10 +62,12 @@ Edit `.chezmoidata/packages.yaml`; do not add ad hoc `brew install` calls.
 | GUI application | `packages.darwin.casks` | `- "ghostty"` |
 | Mac App Store application | `packages.darwin.mas` | `- { id: 937984704, name: "Amphetamine" }` |
 
-Exceptions and current gaps:
+Package exceptions and details:
 
 - gopass is installed by `.install-prerequisites.sh` because templates need it before package application.
-- The repository manages `skhd` and `kanata-tray` configuration, but their binaries are not provisioned by `.chezmoidata/packages.yaml`.
+- skhd.zig is installed from the `jackielii/tap` cask `jackielii/tap/skhd-zig`.
+- Kanata Tray is installed from the Homebrew core formula `kanata-tray`.
+- The Kanata Tray preset expects its Kanata executable at `~/.local/bin/kanata-tray-kanata`; that executable is not created by the package hook.
 
 ## Key Paths
 
@@ -152,7 +154,7 @@ Custom functions:
 ### Keyboard and Navigation
 
 - Holding Space in Kanata produces Hyper (`Ctrl + Alt + Cmd + Shift`).
-- skhd maps Hyper shortcuts to Ghostty, Firefox, Slack, and Google Chrome.
+- skhd.zig maps Hyper shortcuts to Ghostty, Firefox, Slack, and Google Chrome.
 - Neru entry bindings use `Primary+Shift+Space/G/C/S`.
 - Herdr and Neovim share `Ctrl+h/j/k/l` navigation through `vim-herdr-navigation`.
 - AeroSpace owns `Alt` workspace, focus, move, resize, and service-mode bindings.
