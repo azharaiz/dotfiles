@@ -1,0 +1,114 @@
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  chords-v2-min-idle 100
+  macos-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+  )
+  macos-dev-names-exclude (
+    "MX Master 3"
+  )
+)
+
+(defsrc
+  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10   f11   f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lalt lmet          spc             rmet ralt  rctl
+  fn
+)
+
+(defhands
+  (left  q w e r t a s d f g z x c v b tab)
+  (right y u i o p h j k l ; n m , . / ret bspc)
+)
+
+(defvar
+  space-tap-repress-time 150
+  hrm-hold-time 280
+  space-hold-time 200
+)
+
+(defchordsv2
+  (j k) bspc 50 first-release ()
+  (q w) esc  50 first-release ()
+  (f j) ret  50 first-release ()
+)
+
+(defalias
+  esctl (tap-hold 100 100 esc lctl)
+  hyper (multi lctl lalt lmet lsft)
+
+  ;; MODS
+  ;; home row mods
+  a (tap-hold-opposite-hand $hrm-hold-time a lctl
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  s (tap-hold-opposite-hand $hrm-hold-time s lalt
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  d (tap-hold-opposite-hand $hrm-hold-time d lmet
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  f (tap-hold-opposite-hand $hrm-hold-time f lsft
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  j (tap-hold-opposite-hand $hrm-hold-time j rsft
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  k (tap-hold-opposite-hand $hrm-hold-time k rmet
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  l (tap-hold-opposite-hand $hrm-hold-time l ralt
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+  ; (tap-hold-opposite-hand $hrm-hold-time ; rctl
+      (timeout hold) (require-prior-idle 250) (tap-repress-timeout 175)
+      (neutral-keys spc) (neutral hold))
+
+  ;; others
+  spc (tap-hold $space-tap-repress-time $space-hold-time spc @hyper)
+
+  ;; LAYERS
+  left-layer  (layer-while-held left_layer)
+  right-layer (layer-while-held right_layer)
+
+  ;; Left Command: tap Tab, hold for left layer.
+  left-command (tap-hold 200 200 tab @left-layer)
+
+  ;; Right Command: tap Backspace, hold for right layer.
+  right-command (tap-hold 200 200 bspc @right-layer)
+)
+
+(deflayer default_layer
+  brdn brup mctl sls  dtn  mctl prev pp   next mute vold volu
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @esctl @a @s   @d   @f   g    h    @j   @k   @l   @;   '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lalt @left-command    @spc    @right-command ralt rctl
+  fn
+)
+
+(deflayer right_layer
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _  1    2    3    4    5    home pgdn pgup end  '    _    _    _
+  _  S-1  S-2  S-3  S-4  S-5  volu prev pp   next  S-'  _    esc
+  _  \    S--  -    S-=  =    vold brdn brup mute _    _
+  _ _ _    _    _    _    _ 
+  _
+)
+
+(deflayer left_layer
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _  S-grv _    up   _    _    6    7    8    9    0    _    _    _
+  _  grv   left down right _    S-6  S-7  S-8  S-9  S-0  _    _
+  _  _     _    _    _    _    S-[  S-]  [    ]    S-\  _
+  _ _ _    _    _    _    _ 
+  _
+)
+

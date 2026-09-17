@@ -1,0 +1,8 @@
+hyper - return : open /Applications/Ghostty.app
+# Personal
+hyper - l : open /Applications/Firefox.app
+
+# Work
+hyper - a : open /Applications/Slack.app 
+hyper - s : open /Applications/Google\ Chrome.app
+hyper - d : open /Applications/Ghostty.app
