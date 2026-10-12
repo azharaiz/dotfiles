@@ -119,12 +119,13 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
 
 alias v="nvim"
-alias p="omp"
-alias pw="omp --profile work"
-alias o="opencode"
+alias p="pig"
 alias c="claude"
 alias lg="lazygit"
 alias h="herdr"
 alias hw="herdr session attach flip"
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# Added by jcode installer
+export PATH="/Users/zeus/.local/bin:$PATH"

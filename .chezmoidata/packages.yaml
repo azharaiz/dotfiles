@@ -11,7 +11,6 @@ packages:
       - "chezmoi"
       - "neovim"
       - "herdr"
-      - "omp"
 
       # LazyVim
       - "lazygit"
@@ -66,7 +65,6 @@ packages:
       # Browsers
       - "brave-browser"
       - "firefox"
-      - "orion"
       - "mullvad-browser"
 
       # Utility
@@ -90,7 +88,7 @@ packages:
       # Work
       - "google-chrome"
       - "gcloud-cli"
-      - "claude-code@latest"
+
     mas:
       - { id: 937984704, name: "Amphetamine" }
       - { id: 497799835, name: "Xcode" }
