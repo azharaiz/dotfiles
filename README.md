@@ -36,8 +36,14 @@ xcode-select --install
 ### 2. Initialize chezmoi and apply non-secret configuration
 
 ```bash
+sudo xcodebuild -license accept
+
 /bin/bash -c "$(curl -fsSL https://www.chezmoi.io/get)" -- \
   init --apply --skip-secrets https://github.com/azharaiz/dotfiles.git
+
+gpgconf --kil gpg-agent
+gpgconf --launch gpg-agent
+gpg --card-status
 ```
 
 Choose `normal` for a workstation that signs commits and tags with the YubiKey, or `server` to disable Git signing.
